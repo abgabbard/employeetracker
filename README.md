@@ -1,7 +1,7 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
     
   # EmployeeTracker #
-
+You can see a demo video of this application here: [here](https://drive.google.com/file/d/1jdkPwQdXmghV_NCanvgt0NFNeagjDb3N/view?usp=sharing)
 
   ## Description ##
   EmployeeTracker is a Node application used for tracking and managing employees, departments, and roles within an organization. The user can add employees, they can edit roles, change salaries, etc. 
