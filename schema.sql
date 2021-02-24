@@ -29,37 +29,37 @@ CREATE TABLE department (
 
 --            Employee Table Data             -- 
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES ("Andrew", "Gabbard", 01, 520);
+VALUES ("Andrew", "Gabbard", 01, 2);
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES ("Tom", "Brown", 02, 520);
+VALUES ("Tom", "Brown", 02, null);
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES ("Bill", "Baggins", 03, 520);
+VALUES ("Bill", "Baggins", 03, 2);
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES ("Josh", "A", 04, 520);
+VALUES ("Josh", "A", 04, 2);
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES ("Becca", "C", 05, 520);
+VALUES ("Becca", "C", 05, 2);
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES ("Brando", "N", 06, 520);
+VALUES ("Brando", "N", 06, 2);
 
 
 
 --            Executive Department
 INSERT INTO role (title, salary, department_id)
-VALUES ("CEO", 100000, 55);
+VALUES ("CEO", 100000, 1);
 INSERT INTO role (title, salary, department_id)
-VALUES ("CFO", 90000, 55);
+VALUES ("CFO", 90000, 1);
 
 --            Senior Management
 INSERT INTO role (title, salary, department_id)
-VALUES ("VICE MANAGER", 80000, 50);
+VALUES ("VICE MANAGER", 80000, 2);
 INSERT INTO role (title, salary, department_id)
-VALUES ("REGIONAL MANAGER", 75000, 50);
+VALUES ("REGIONAL MANAGER", 75000, 2);
 
 --            Engineering Department
 INSERT INTO role (title, salary, department_id)
-VALUES ("ENGINEERING LEAD", 120000, 45);
+VALUES ("ENGINEERING LEAD", 120000, 3);
 INSERT INTO role (title, salary, department_id)
-VALUES ("ENGINEER", 82000, 45);
+VALUES ("ENGINEER", 82000, 3);
 
 
 INSERT INTO department (deptname)
