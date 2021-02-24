@@ -35,7 +35,14 @@ function viewDepartment() {
 
 function viewEmployee() {
   const connector = connection.query(
-    "SELECT * FROM employee",
+`SELECT employee.first_name as 'First Name', employee.last_name as 'Last Name', title as 'Position', salary as 'Salary', deptname as 'Department Name', E.last_name as 'Manager'
+FROM employee 
+INNER JOIN role
+ON employee.role_id = role.id
+INNER JOIN department
+ON role.department_id = department.id
+INNER JOIN employee E 
+ON employee.manager_id = E.id`,
     function (err, res) {
       if (err) throw err;
       console.table(res);
@@ -44,7 +51,10 @@ function viewEmployee() {
   );
 }
 function viewRole() {
-  let connector = connection.query("SELECT * FROM role", function (err, res) {
+  let connector = connection.query(`SELECT role.id, title, salary, deptname
+  FROM role 
+  INNER JOIN department 
+  ON role.department_id = department.id`, function (err, res) {
     if (err) throw err;
     console.table(res);
     initialize();
@@ -66,6 +76,74 @@ function addDepartment() {
           if (err) throw err;
 
           viewDepartment();
+        }
+      );
+    });
+}
+
+
+function addEmployee() {
+  inquirer
+    .prompt([{
+      name: "FirstName",
+      type: "input",
+      message: "What is the first name of the employee you want to add?",
+    },
+    {
+    name: "LastName",
+    type: 'input',
+    message: "What is the last name of the new employee you want to add?"
+    },
+    {
+    name: "RoleID",
+    type: 'input',
+    message: "What is the role ID of the new employee you want to add?"
+    },
+    {
+    name: "ManagerID",
+    type: 'input',
+    message: "What is the Manager ID for the new employee you want to add?"
+    }
+  ])
+    .then(function (answer) {
+      var query = connection.query(
+        "INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)",
+        [answer.FirstName, answer.LastName, answer.RoleID, answer.ManagerID],
+        function (err, res) {
+          if (err) throw err;
+
+          viewEmployee();
+        }
+      );
+    });
+}
+
+function addRole() {
+  inquirer
+    .prompt([{
+      name: "Title",
+      type: "input",
+      message: "What is the title of the role you want to add?",
+    },
+    {
+    name: "Salary",
+    type: 'input',
+    message: "What is the Salary for this role??"
+    },
+    {
+    name: "DepartmentID",
+    type: 'input',
+    message: "What is the department ID for this role?"
+    },
+  ])
+    .then(function (answer) {
+      var query = connection.query(
+        "INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)",
+        [answer.Title, answer.Salary, answer.DepartmentID],
+        function (err, res) {
+          if (err) throw err;
+
+          viewRole();
         }
       );
     });
@@ -125,162 +203,3 @@ function initialize() {
     });
 }
 
-// function initialize() {
-//     inquirer
-//       .prompt([
-//         {
-//           type: "checkbox",
-//           name: "initialize",
-//           message: "Please choose one of the actions below:",
-//           choices: ["Add Department", "Add Role", "Add Employee", "View Department", "View Employee", "View Role", "Update Employee"],
-//         },
-//       ])
-//       .then((data) => {
-//         const typeChecker = data.initialize.toString();
-//         if (typeChecker === "Add Department") {
-//           addDepartment();
-//         } else if (typeChecker === "Add Role") {
-//           addRole();
-//         } else if (typeChecker === "Add Employee") {
-//           addEmployee();
-//         } else if (typeChecker === "View Role") {
-//           viewRole();
-//         } else if (typeChecker === "View Department") {
-//           viewDepartment();
-//         } else if (typeChecker === "View Employee") {
-//           viewEmployee();
-//         } else if (typeChecker === "Update Employee") {
-//           updateEmployee();
-//         };
-//       });
-//   }
-
-// function view() {
-//   inquirer.prompt([
-//           {
-//             type: "input",
-//             message: "What is the Manager's name?",
-//             name: "name",
-//           },
-//         ])
-//         .then((data) => {
-//           const manager = new Manager(
-//             data.name,
-//             data.id,
-//             data.email,
-//             data.officeNumber
-//           );
-//           team.push(manager);
-//           addNewMember();
-//         });
-//     }
-
-//   function initialize() {
-//     inquirer
-//       .prompt([
-//         {
-//           type: "checkbox",
-//           name: "initialize",
-//           message: "Do you want to add view or update?",
-//           choices: ["Add", "View", "Update"],
-//         },
-//       ])
-//       .then((data) => {
-//         const typeChecker = data.initialize.toString();
-//         if (typeChecker === "Add") {
-//           add();
-//         } else if (typeChecker === "View") {
-//           view();
-//         } else if (typeChecker === "Update") {
-//           update();
-//         }
-//       });
-//   }
-
-//   function initialize() {
-//     inquirer
-//       .prompt([
-//         {
-//           type: "checkbox",
-//           name: "initialize",
-//           message: "Do you want to add view or update?",
-//           choices: ["Add", "View", "Update"],
-//         },
-//       ])
-//       .then((data) => {
-//         const typeChecker = data.initialize.toString();
-//         if (typeChecker === "Add") {
-//           add();
-//         } else if (typeChecker === "View") {
-//           view();
-//         } else if (typeChecker === "Update") {
-//           update();
-//         }
-//       });
-//   }
-
-//   function add() {
-//     inquirer
-//       .prompt([
-//         {
-//           name: "addNewMember",
-//           type: "confirm",
-//           message: "Do you want to add another team member?",
-//         },
-//       ])
-//       .then((data) => {
-//         if (data.addNewMember === true) {
-//         //   newExecute();
-//         } else {
-//         //   renderHTML();
-//         }
-//       });
-//   }
-
-// //   function view() {
-//     inquirer
-//       .prompt([
-//         {
-//           type: "input",
-//           message: "What is the Manager's name?",
-//           name: "name",
-//         },
-//       ])
-//       .then((data) => {
-//         const manager = new Manager(
-//           data.name,
-//           data.id,
-//           data.email,
-//           data.officeNumber
-//         );
-//         team.push(manager);
-//         addNewMember();
-//       });
-//   }
-
-//   function update() {
-//     inquirer
-//       .prompt([
-//         {
-//           type: "input",
-//           message: "What is the Engineer's name?",
-//           name: "name",
-//         },
-//       ])
-//       .then((data) => {
-//         const engineer = new Engineer(
-//           data.name,
-//           data.id,
-//           data.email,
-//           data.GitHub
-//         );
-//         team.push(engineer);
-//         addNewMember();
-//       });
-//   }
-
-//   function renderHTML() {
-//     fs.writeFileSync(outputPath, render(team), "utf-8");
-//   }
-
-// initialize();
